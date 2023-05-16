@@ -7,11 +7,17 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ChatComponent } from './components/chat/chat.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MensajesComponent } from './pages/mensajes/mensajes.component';
 const config: SocketIoConfig = { url: 'http://localhost:4000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent
+    ChatComponent,
+    ListaUsuariosComponent,
+    LoginComponent,
+    MensajesComponent
   ],
   imports: [
     BrowserModule,
