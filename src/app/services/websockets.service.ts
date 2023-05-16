@@ -9,6 +9,7 @@ export class WebsocketsService {
   public socketStatus = false
   public usuario: Usuario = new Usuario('')
   constructor(private socket: Socket) {
+    this.cargarStorage()
     this.checkstatus()
   }
   checkstatus() {
@@ -26,14 +27,37 @@ export class WebsocketsService {
     this.socket.emit(evento, payload, callback)
 
   }
+  getUsuario(){
+    if(this.usuario.nombre==''){
+      return null
+    }else{
+       return this.usuario
+    }
+
+  }
   listen(evento: string) {
     return this.socket.fromEvent(evento)
 
   }
   loginWS(nombre: string) {
-    this.emit('configurar-usuario',{nombre},(resp:any)=>{
-      console.log(resp)
-    })
+    return new Promise(
+      (resolve, reject) => {
+        this.emit('configurar-usuario', { nombre }, (resp: any) => {
+          this.usuario = new Usuario(nombre)
+          this.guardarStorage()
+          resolve(nombre)
+        })
+      }
+    )
+  }
+  guardarStorage() {
+    localStorage.setItem('usuario', JSON.stringify(this.usuario))
+  }
+  cargarStorage() {
+    if (localStorage.getItem('usuario')) {
 
+      this.usuario = JSON.parse(localStorage.getItem('usuario') || '')
+      this.loginWS(this.usuario.nombre)
+    }
   }
 }

@@ -15,7 +15,13 @@ export class AppComponent implements OnInit {
   ){
 
   }
+
   ngOnInit(): void {
-      
+    this.chatService.getMessagesPrivado().subscribe(
+      msg=>{
+        console.log(msg)
+      }
+    )
   }
+
 }
